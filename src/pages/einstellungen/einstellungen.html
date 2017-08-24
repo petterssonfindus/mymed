@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Einstellungen
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+
+    <ion-item>
+      <ion-label stacked>Username</ion-label>
+      <ion-input type="text" id="username" #un></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Password</ion-label>
+      <ion-input type="password" id="password" #pw></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <button ion-button full (click)="onClick(un.value, pw.value)">Full Button</button>
+    </ion-item>
+
+  </ion-list>
+<!--
+  <img src="http://ursulam.de/images/img1.jpg">
+-->
+  <img src="http://ursulam.de/images/img1.jpg">
+
+
+<img src = {{pfad}} >
+
+</ion-content>

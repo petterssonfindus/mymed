@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-grid>
+    <ion-row>
+
+      <ion-col>
+        <ion-navbar>
+          <ion-title>Oskars Bestand</ion-title>
+        </ion-navbar>
+      </ion-col>
+
+      <ion-col>
+        <ion-toolbar>
+          <button ion-button end round color="light" (click)="clickNewMed()">
+            Erfassen  
+          </button>
+          <button ion-button end round color="light" (click)="clickSearchMed()">
+            Suchen  
+          </button>
+          <button ion-button end round color="light" (click)="clickFilter()">
+            Filtern  
+          </button>
+          <ion-item>
+            <ion-label>Kategorien anzeigen</ion-label>
+            <ion-checkbox [(ngModel)]="kategorienAnzeigen"></ion-checkbox>
+          </ion-item>
+          <ion-item>
+            <ion-label>Sortierung</ion-label>
+            <ion-select [(ngModel)]="sortierung" cancelText="zurück" (ionChange)="sortierungChange()">
+              <ion-option value="name">Name</ion-option>
+              <ion-option value="datum">Ablaufdatum</ion-option>
+              <ion-option value="kategorie">Kategorie</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-toolbar>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-list *ngIf="!kategorienAnzeigen">
+    <button ion-item *ngFor="let item of medList" (click)="clickItemSelected(item)">
+      <list-element [med]='item'></list-element>
+    </button>
+  </ion-list>
+
+  <div *ngIf="kategorienAnzeigen">
+    <ion-item-group *ngIf="filter.schmerz">
+      <ion-item-divider color="light">Schmerz</ion-item-divider>
+      <button ion-item *ngFor="let item of getMedListKategorie(1)" (click)="clickItemSelected(item)">
+          <list-element [med]='item'></list-element>
+        </button>
+    </ion-item-group>
+
+    <ion-item-group *ngIf="filter.erkaeltung">
+      <ion-item-divider color="light">Erkältung</ion-item-divider>
+      <button ion-item *ngFor="let item of getMedListKategorie(2)" (click)="clickItemSelected(item)">
+          <list-element [med]='item'></list-element>
+        </button>
+    </ion-item-group>
+
+    <ion-item-group *ngIf="filter.durchfall">
+      <ion-item-divider color="light">Durchfall</ion-item-divider>
+      <button ion-item *ngFor="let item of getMedListKategorie(3)" (click)="clickItemSelected(item)">
+          <list-element [med]='item'></list-element>
+        </button>
+    </ion-item-group>
+  </div>
+</ion-content>

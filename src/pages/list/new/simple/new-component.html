@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Erfassen</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+
+    <ion-item>
+      <ion-label stacked>PZN-Nummer</ion-label>
+      <ion-input type="text" id="pzn" #pzn></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Ablaufdatum</ion-label>
+      <ion-datetime [(ngModel)]="ablaufdatum" placeholder="Datum" cancelText="Abbrechen" doneText="Übernehmen" displayFormat="DD.MM.YYYY" pickerFormat="DD MMM YYYY" min="2010" max="2040"></ion-datetime>
+      <!--<ion-datetime displayformat="h:mm A" pickerformat="h mm A" [(ngModel)]="event.timeStarts"></ion-datetime>-->
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Bestand</ion-label>
+      <ion-input type="number" id="bestand" #bestand></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <button ion-button (click)="clickMedNeu(
+        pzn.value, bestand.value)">Hinzufügen</button>
+      <button ion-button (click)="clickCancel()">Abbrechen</button>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>

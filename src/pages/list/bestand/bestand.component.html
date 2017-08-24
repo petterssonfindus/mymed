@@ -1,0 +1,14 @@
+<ion-item>
+<ion-label stacked>Ablauf-datum</ion-label>
+<ion-datetime displayFormat="DD.MM.YYYY" pickerFormat="DD/MM/YYYY" [(ngModel)]="ablaufdatum"></ion-datetime>
+</ion-item>
+
+<!-->
+<ion-datetime placeholder="med.getablaufdatum()|date:'dd.MM.yyyy'"displayFormat="DD.MM.YYYY" pickerFormat="DD/MM/YYYY" [(ngModel)]="textfeld"></ion-datetime>
+<-->
+
+<ion-item>
+<ion-label>Bestand</ion-label>
+<ion-input type="text" value="med.getbestand()" [(ngModel)]="bestandzahl"></ion-input>
+</ion-item>
+

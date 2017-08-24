@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-grid>
+    <ion-row>
+
+      <ion-col>
+        <ion-navbar>
+          <ion-title>{{med.name}}</ion-title>
+        </ion-navbar>
+      </ion-col>
+
+      <ion-col>
+        <ion-toolbar>
+
+          <button *ngIf="!bestandanzeigen" ion-button end round color="grey" (click)="clickNewMed()">
+            Speichern  
+          </button>
+
+          <button *ngIf="!bestandanzeigen" ion-button end round color="grey" (click)="clickSchliessen()">
+            Schliessen
+          </button>
+
+          <button *ngIf="bestandanzeigen" ion-button end round color="grey" (click)="clickSaveMed()">
+            Speichern  
+          </button>
+
+          <button *ngIf="bestandanzeigen" ion-button end round color="grey" (click)="clickDelMed()">
+            Entfernen
+          </button>
+        </ion-toolbar>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label stacked>PZN-Nummer</ion-label>
+      <ion-input type="text" [value]="med.getpzn()" readonly="true"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Name</ion-label>
+      <ion-input type="text" [value]="med.getname()" readonly="true"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Kategorie</ion-label>
+      <ion-input type="text" [value]="med.getkategorie()" readonly="true"></ion-input>
+    </ion-item>
+
+    <bestand></bestand>
+
+    <ion-item>
+      <ion-label stacked>ist Abgelaufen</ion-label>
+      <ion-input type="text" [value]="med.getistabgelaufen()" readonly="true"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <button ion-button (click)="clickAnwendungsgebiet()">Anwendungsgebiet</button>
+      <button ion-button (click)="clickWirkstoffe()">Wirkstoffe</button>
+      <button ion-button (click)="clickWirkungsweise()">Wirkungsweise</button>
+      <button ion-button (click)="clickGegenanzeigen()">Gegenanzeigen</button>
+      <button ion-button (click)="clickDosierung()">Dosierung</button>
+      <button ion-button (click)="clickEntsorgung()">Entsorgung</button>
+    </ion-item>
+  </ion-list>
+</ion-content>

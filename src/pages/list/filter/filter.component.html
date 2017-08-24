@@ -1,0 +1,49 @@
+<ion-header>
+    <ion-grid>
+        <ion-row>
+
+            <ion-col>
+                <ion-navbar>
+                    <ion-title>Filter</ion-title>
+                </ion-navbar>
+            </ion-col>
+
+            <ion-col>
+                <ion-toolbar>
+                    <button ion-button end round color="light" (click)="clickAll()">
+            Alle Markieren  
+                      </button>
+                    <button ion-button end round color="light" (click)="clickNone()">
+            Keines Markieren  
+                    </button>
+                    <button ion-button end round color="light" (click)="clickSave()">
+            Übernehmen 
+                    </button>
+                </ion-toolbar>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-header>
+
+
+<ion-content padding>
+    <ion-list>
+
+        <ion-item>
+            <ion-label>Schmerz</ion-label>
+            <ion-checkbox [(ngModel)]="filter.schmerz" color="dark"></ion-checkbox>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Erkältung</ion-label>
+            <ion-checkbox [(ngModel)]="filter.erkaeltung" color="dark"></ion-checkbox>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Durchfall</ion-label>
+            <ion-checkbox [(ngModel)]="filter.durchfall" color="dark"></ion-checkbox>
+        </ion-item>
+
+    </ion-list>
+
+</ion-content>

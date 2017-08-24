@@ -1,0 +1,16 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Suche im Gesamt-Bestand nach Medikament</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-searchbar (ionInput)="getItems($event)" placeholder="Suche"></ion-searchbar>
+    <ion-list>
+
+        <button ion-item *ngFor="let item of items" (click)="clickItemSelected(item)">
+            {{ item.name }}  -  ({{item.ablaufdatum|date:"dd.MM.yyyy"}})
+        </button>
+
+    </ion-list>
+</ion-content>
