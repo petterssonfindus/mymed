@@ -283,7 +283,7 @@ export class MedService implements OnInit {
                 newmed.setname(jsonData['name']);
                 newmed.setpzn(jsonData['pzn']);
                 newmed.setbestand(jsonData['bestand']);
-                newmed.setablaufdatum(jsonData['ablaufdatum']);
+                newmed.setablaufdatumnumber(jsonData['ablaufdatum']);
                 newmed.setkategorie(jsonData['kategorie']);
                 newmed.setapothekenpflichtig(jsonData['apothekenpflichtig']);
                 newmed.setanwendungsgebiet(jsonData['anwendungsgebiet']);
@@ -343,8 +343,11 @@ export class MedService implements OnInit {
         params.set('function', '7');
         params.set('userid', '2');
         params.set('idbestand', medKlein1.getidbestand().toString());
+        params.set('idmedikament', medKlein1.getidmedikament().toString());
+        let millis;
         if (medKlein1.getablaufdatum() != undefined)
-            params.set('ablaufdatum', medKlein1.getablaufdatum().toString());
+            millis = medKlein1.getablaufdatum().getTime();
+            params.set('ablaufdatum', millis.toString());
         if (medKlein1.getbestand() != undefined)
             params.set('bestand', medKlein1.getbestand().toString());
 

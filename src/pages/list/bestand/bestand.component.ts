@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MedService } from "../../../app/med.service";
 import { Med } from "../../../app/med.model";
+import { MedKlein } from "../../../app/medklein.model";
 
 @Component({
     selector: 'bestand',
@@ -8,12 +9,14 @@ import { Med } from "../../../app/med.model";
 })
 export class BestandComponent {
     med: Med;
-    textfeld: String; 
+    textfeld: String;
     bestandzahl: String;
-    ablaufdatum:Date;
+    ablaufdatum: Date;
     ablaufdatumtext: String;
-//    bestandanzeigen:boolean;
     
+    // bekommt ein Data-Bindung beim Aufruf der Komponente
+    @Input() medKlein: MedKlein;
+
     constructor(
         private medService: MedService
     ) {

@@ -71,6 +71,12 @@ export class MedPageComponent {
      * speichert die Bestandsveränderung durch Benutzereingabe in einem bestehenden Bestand. 
      */
     clickSaveMed() {
+        let test: Promise<any> = this.medService.changeBestandToServer(this.med);
+        test.then(
+          (response: Response) => {
+            this.navCtrl.pop();
+          }
+        )
     }
 
     clickAnwendungsgebiet() {

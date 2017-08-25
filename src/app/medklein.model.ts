@@ -48,6 +48,9 @@ export class MedKlein {
         this.ablaufdatum = ablaufdatum;
         this.checkIstAbgelaufen();
     }
+    setablaufdatumnumber(ablaufnumber: number) {
+        this.ablaufdatum = new Date(ablaufnumber);
+    }
     setbestand(bestand: number): void { this.bestand = bestand }
     setentsorgung(entsorgung: number): void { this.entsorgung = entsorgung }
     setapothekenpflichtig(apothekenpflichtig: number): void { this.apothekenpflichtig = apothekenpflichtig }
