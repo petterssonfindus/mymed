@@ -326,7 +326,7 @@ export class MedService implements OnInit {
             .toPromise()
             .then((response: Response) => {
                 const jsonData = response.json();
-                let idbestand = jsonData['idbestand'];6
+                let idbestand = jsonData['idbestand']; 6
                 medKlein1.setidbestand(idbestand);
                 console.log("addBestandToServer: idbestand", idbestand);
                 this.medList.push(medKlein1);
@@ -338,18 +338,31 @@ export class MedService implements OnInit {
      * ändert damit die Bestandsdaten Ablaufdatum und Bestand  
      * @param medKlein1 die Bestandsdaten und Medikamenten-ID des bestehenden Bestandes 
      */
-    changeBestandToServer(medKlein1: MedKlein) {
+    changeBestandToServer(medKlein1: MedKlein, ablaufdatumstring: String, bestandstring: String) {
         let params: URLSearchParams = new URLSearchParams();
         params.set('function', '7');
         params.set('userid', '2');
+        console.log("changeBestandToServer ablaufdatumString = ", ablaufdatumstring);
         params.set('idbestand', medKlein1.getidbestand().toString());
         params.set('idmedikament', medKlein1.getidmedikament().toString());
+        // Prüfung, ob eine Veränderung des Bestandswertes vorliegt
+        console.log("changeBestand Bestand ist und war ", bestandstring, "  ", medKlein1.getbestand());
+        if (typeof bestandstring !== 'undefined' && bestandstring.length > 0) {
+            if (bestandstring.toString !== medKlein1.getbestand().toString) {
+                params.set('bestand', bestandstring.toString());
+            }
+        }
+
+        // Prüfung ob eine Veränderung des Ablaufdatums vorliegt 
         let millis;
-        if (medKlein1.getablaufdatum() != undefined)
-            millis = medKlein1.getablaufdatum().getTime();
+        if (typeof ablaufdatumstring !== 'undefined' && ablaufdatumstring.length > 1) {
+            millis = Date.parse(ablaufdatumstring.toString());
             params.set('ablaufdatum', millis.toString());
-        if (medKlein1.getbestand() != undefined)
-            params.set('bestand', medKlein1.getbestand().toString());
+            console.log("changeBestandToServer: ablaufdatum: ", millis);
+        }
+        if (typeof bestandstring !== 'undefined' && bestandstring.length > 1)
+            params.set('bestand', bestandstring.toString());
+
 
         let options = new RequestOptions();
         options.search = params;
@@ -440,15 +453,14 @@ export class MedService implements OnInit {
                 if (fehlercode == 0) {
                     // aus der Liste Löschen 
                     let x = this.medList.findIndex(
-                        (item:MedKlein) =>  
-                        {
+                        (item: MedKlein) => {
                             if (item.getidbestand() == idbestand)
-                            return true;
+                                return true;
                             else return false;
                         }
                     )
-                    console.log("remove Indexposition: " , x);
-                    this.medList.splice(x , 1);
+                    console.log("remove Indexposition: ", x);
+                    this.medList.splice(x, 1);
                 }
                 console.log("deleteBestandToServer: idbestand: ", idbestand);
             })

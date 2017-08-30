@@ -12,6 +12,7 @@ export class MedKlein {
     private name: string;
     private kategorie: number;
     private ablaufdatum: Date;
+    medablaufdatumstring: String;
     private bestand: number;
     private apothekenpflichtig: number;
     private entsorgung: number;
@@ -48,6 +49,11 @@ export class MedKlein {
         this.ablaufdatum = ablaufdatum;
         this.checkIstAbgelaufen();
     }
+    /**
+     * setzt das Ablaufdatum anhand der Zahl Millis 
+     * Am Server werden Millis verwendet, in der DB wird Datums-Format verwendet. 
+     * @param ablaufnumber 
+     */
     setablaufdatumnumber(ablaufnumber: number) {
         this.ablaufdatum = new Date(ablaufnumber);
     }

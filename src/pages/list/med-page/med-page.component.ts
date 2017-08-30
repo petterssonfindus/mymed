@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { Component, EventEmitter, Output, Input, ViewChild } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Med } from '../../../app/med.model';
 import { MedService } from "../../../app/med.service";
 import { MedDetailComponent } from "../med-detail/med-detail.component";
 import { MedKlein } from "../../../app/medklein.model";
 import { NewSearchComponent } from "../new/newsearch.component";
+import { BestandComponent } from "../bestand/bestand.component";
 
 @Component({
     selector: 'med-page',
@@ -21,7 +22,12 @@ export class MedPageComponent {
     med: Med;
     medid: number;
     bestandanzeigen: boolean = true;
+    initablaufdatum: String;  // wird an die Bestand-Component weiter gegeben 
+    initbestand: String;  // wird an die Bestand-Component weiter gegeben 
     @Output() deleteEvent = new EventEmitter<Med>();
+    // Inject der Child-Component mit Zugriff auf deren Attribute und Methoden 
+    // das Ergebnis der Benutzereingabe wird darüber ermittelt
+    @ViewChild(BestandComponent) private bestandComponent: BestandComponent;
 
     /**
      * stellt ein Medikament vollständig dar incl. allen Daten
@@ -44,6 +50,8 @@ export class MedPageComponent {
     ngOnInit() {
         // holt das große Med anhand der medid
         console.log("Med nach ngOnInit:", this.med);
+        this.initablaufdatum = this.med.getablaufdatum().toISOString().substring(0,10);
+        this.initbestand = this.med.getbestand().toString();
     }
     /**
      * speichert einen neuen Bestand für einen Benutzer
@@ -71,7 +79,9 @@ export class MedPageComponent {
      * speichert die Bestandsveränderung durch Benutzereingabe in einem bestehenden Bestand. 
      */
     clickSaveMed() {
-        let test: Promise<any> = this.medService.changeBestandToServer(this.med);
+        console.log("clickSaveMed: bestandComponent.ablaufdatumString = ", this.bestandComponent.ablaufdatumstring);
+        let test: Promise<any> = this.medService.changeBestandToServer(
+            this.med, this.bestandComponent.ablaufdatumstring, this.bestandComponent.bestandzahl);
         test.then(
           (response: Response) => {
             this.navCtrl.pop();

@@ -8,25 +8,22 @@ import { MedKlein } from "../../../app/medklein.model";
     templateUrl: 'bestand.component.html'
 })
 export class BestandComponent {
-    med: Med;
-    textfeld: String;
-    bestandzahl: String;
-    ablaufdatum: Date;
-    ablaufdatumtext: String;
-    
-    // bekommt ein Data-Bindung beim Aufruf der Komponente
-    @Input() medKlein: MedKlein;
 
+    bestandzahl: String;
+    ablaufdatumstring: String; 
+
+    // bekommt ein Data-Bindung mit dem anzuzeigenden Datum und Betrag
+    @Input() initablaufdatum: String;
+    @Input() initbestand: String;
+    
     constructor(
         private medService: MedService
-    ) {
-        this.med = medService.getMed();
-        this.med.setablaufdatum(new Date(new Date().setFullYear(2020, 11, 30)));
-        // Initialwert des Textfeldes setzen
-        if (this.med.getablaufdatum() != undefined) {
-            this.ablaufdatum = this.med.getablaufdatum();
-        }
-        console.log("Ablaufdatumtext = ", this.ablaufdatum);
+    ) {    }
+
+    ngOnInit() {
+        // die von außen gesetzten Initialwerte werden eingesetzt. 
+        this.ablaufdatumstring = this.initablaufdatum;
+        this.bestandzahl = this.initbestand;
     }
 
 }
