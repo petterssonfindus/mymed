@@ -24,7 +24,7 @@ import { Filter } from "../../app/filter.model";
  * Ein Eintrag kann selektiert werden, das öffnet die Medikamenten-Details-Seite
  */
 export class ListPage implements OnInit {
-  medList: MedKlein[];
+  medList: MedKlein[];   // wird in der UI verwendet 
   filter: Filter;
   @Input() filterschmerz: boolean;
   @Input() kategorienAnzeigen: boolean = true;
@@ -34,9 +34,26 @@ export class ListPage implements OnInit {
     //    this.medList = this.medService.getMedList();
     this.filter = new Filter();
   }
+  
+  /**
+   * asynchroner Eingang der Daten des Servers 
+   * findet statt zu Beginn und bei jeder Änderung  
+   * @param newList die neuen Daten der MedList
+   */
+  private medListChanged(newList: MedKlein[]) {
+    console.log("List.ts medListChanged: eine neue Liste");
+    this.medList = newList;
+  }
 
+  /**
+   * zu Beginn wird die Liste mit den Daten vom Server geladen
+   * asynchroner Service-Aufruf  
+   */
   ngOnInit() {
     let test: Promise<any> = this.medService.getMedListFromServer2();
+    this.medService.getMedList2().subscribe((value) => {
+        this.medListChanged(value);
+      });
     test.then(
       (response: Response) => {
         this.medList = this.medService.getMedList();
@@ -48,13 +65,9 @@ export class ListPage implements OnInit {
 //        this.navCtrl.setRoot(this.navCtrl.getActive().component);
       }
     )
+    // Registrierung für jede Änderung von Daten in der MedList
+    this.medService.getMedList2().subscribe((value) => this.medListChanged(value));
 
-    /*    
-        this.medService.medList$.subscribe(
-          medList => { console.log("med geht ein", medList) }
-        )
-        this.medList.push;
-      */
   }
 
   /**

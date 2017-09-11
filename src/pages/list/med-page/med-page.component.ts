@@ -19,14 +19,16 @@ import { BestandComponent } from "../bestand/bestand.component";
  */
 export class MedPageComponent {
 
-    med: Med;
+    med: Med;    // das Medikament, das präsentiert wird 
     medid: number;
-    bestandanzeigen: boolean = true;
+    bestandanzeigen: boolean = true; // steuert, ob die Bestandsdaten angezeigt werden - oder nicht 
     initablaufdatum: String;  // wird an die Bestand-Component weiter gegeben 
     initbestand: String;  // wird an die Bestand-Component weiter gegeben 
     @Output() deleteEvent = new EventEmitter<Med>();
-    // Inject der Child-Component mit Zugriff auf deren Attribute und Methoden 
-    // das Ergebnis der Benutzereingabe wird darüber ermittelt
+    /**
+     * Inject der Child-Component mit Zugriff auf deren Attribute und Methoden 
+     * das Ergebnis der Benutzereingabe wird darüber ermittelt
+     */
     @ViewChild(BestandComponent) private bestandComponent: BestandComponent;
 
     /**
@@ -47,18 +49,27 @@ export class MedPageComponent {
         //        this.medService.getMedikamentFromServer(this.medid).subscribe();
     }
 
+    /**
+     * die anzuzeigenden Werte werden initialisiert 
+     */
     ngOnInit() {
-        // holt das große Med anhand der medid
-        console.log("Med nach ngOnInit:", this.med);
-        this.initablaufdatum = this.med.getablaufdatum().toISOString().substring(0,10);
-        this.initbestand = this.med.getbestand().toString();
+        console.log("MedPageComponent: Med nach ngOnInit:", this.med);
+        // falls ein Ablaufdatum existiert, wird dieses formatiert 
+        if (typeof this.med.getablaufdatum() != "undefined") {
+            this.initablaufdatum = this.med.getablaufdatum().toISOString().substring(0, 10);
+        }
+        // falls ein Bestand existiert, wird dieser formatiert
+        if (typeof this.med.getbestand() != "undefined") {
+            this.initbestand = this.med.getbestand().toString();
+        }
     }
     /**
      * speichert einen neuen Bestand für einen Benutzer
+     * die vom Benutzer erfassten Bestands-Daten werden an den Service weiter gegeben.
      */
     clickNewMed() {
         console.log("clickNewMed in MedPage vor Server", this.med);
-        this.medService.addBestandToServer(this.med);
+        this.medService.addBestandToServer(this.med, this.bestandComponent.ablaufdatumstring, this.bestandComponent.bestandzahl);
         // die Erfassungs-Maske wieder schließen. 
         this.navCtrl.pop();
     }
@@ -70,9 +81,9 @@ export class MedPageComponent {
     clickDelMed() {
         let test: Promise<any> = this.medService.removeBestandFromServer(this.med);
         test.then(
-          (response: Response) => {
-            this.navCtrl.pop();
-          }
+            (response: Response) => {
+                this.navCtrl.pop();
+            }
         )
     }
     /**
@@ -83,9 +94,9 @@ export class MedPageComponent {
         let test: Promise<any> = this.medService.changeBestandToServer(
             this.med, this.bestandComponent.ablaufdatumstring, this.bestandComponent.bestandzahl);
         test.then(
-          (response: Response) => {
-            this.navCtrl.pop();
-          }
+            (response: Response) => {
+                this.navCtrl.pop();
+            }
         )
     }
 

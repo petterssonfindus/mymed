@@ -13,73 +13,72 @@ import { Subject } from 'rxjs/Subject';
 import { Filter } from "./filter.model";
 import { User } from "./user.model";
 import { Suchtreffer } from "./suchtreffer";
-import { BehaviorSubject } from "rxjs/Rx";
 
 @Injectable()
 export class MedService implements OnInit {
 
-    //     private medKlein: MedKlein;  // 
-    private med: Med;  // das Medikament das bearbeitet wird
+    private medKlein: MedKlein;
+    private med: Med;
     //    private medList: [MedKlein] = new MedList().getMedList();
     //    private medList = new Subject<Med>();
     // medList$ = this.medList.asObservable();
 
     test: any;
     filter: Filter;
-
-    // Observable Liste der Medikamente, die in der List-Component dargestellt werden.
-    // darauf kann sich jeder registrieren, um sich über Änerungen benachrichtigen zu lassen. 
-    private medList2: BehaviorSubject<MedKlein[]>;
-    private medList: MedKlein[];
-
-    //    medList: MedKlein[];  // die Liste 
-    suchtrefferList: Array<Suchtreffer>;  // die Suchtreffer, die in der Search-Component dargestellt wird. 
+    medList: MedKlein[];
+    suchtrefferList: Array<Suchtreffer>;
+    medKlein1: MedKlein = new MedKlein(
+        39,
+        1,
+        "1234567",
+        'Initial-Medikament aus Med-Service',
+        1,
+        new Date(),
+        16,
+        1
+    );
+    medKlein2: MedKlein = new MedKlein(
+        40,
+        3,
+        "2345678",
+        '2. Initial-Medikament aus Med-Service',
+        1,
+        new Date(new Date().setFullYear(2020, 11, 30)),
+        7,
+        1
+    );
+    medKlein3: MedKlein = new MedKlein(
+        41,
+        4,
+        "3456789",
+        '3. Initial-Medikament aus Med-Service',
+        2,
+        new Date(new Date().setFullYear(2016, 11, 30)),
+        1,
+        0
+    );
 
     constructor(private http: Http) {
-        this.medList = new Array<MedKlein>();
-        this.medList2 = <BehaviorSubject<MedKlein[]>>new BehaviorSubject(null);
+        this.medList = [this.medKlein1, this.medKlein2, this.medKlein3];
+        //        this.medList = this.getMedListFromServer().subscribe();
+        this.medKlein2.getablaufdatum().setMonth(11);
+        this.medKlein3.getablaufdatum().setFullYear(2016, 11, 30);
 
         this.med = new Med();
         this.suchtrefferList = new Array<Suchtreffer>();
+
         this.filter = new Filter();
         this.filter.durchfall = true;
         this.filter.erkaeltung = true;
         this.filter.schmerz = true;
-        this.testObservable();
     }
 
     ngOnInit() {
-        console.log("med.service ngOnInit ausgeführt");
-    }
 
-    testObservable2(test: string) {
-        console.log("testObservable2 mit Wert: ", test);
-    }
-
-    testObservable() {
-        let teststring = "i";
-        let bs = new BehaviorSubject("a");
-        bs.next("b");
-        bs.subscribe((value) => this.testObservable2(value));
-        bs.next("c");
-        //        funktioniert nicht, weil ECMAScript6 nicht zur Verfügung steht 
-        //        bs.next(Object.assign({}, teststring));
-
-        let a = this.getMedList2()
-            .map(
-            medKlein => console.log("medKlein gefunden: ", medKlein)
-            );
     }
 
     getMed(): Med {
         return this.med;
-    }
-    /**
-     * Zugriff auf die Liste in Form eines Observable
-     * asynchrone Benachrichtigung bei Veränderung 
-     */
-    getMedList2() {
-        return this.medList2.asObservable();
     }
 
     getMedList(): MedKlein[] {
@@ -98,13 +97,10 @@ export class MedService implements OnInit {
     getFilter(): Filter {
         return this.filter;
     }
-    /**
-     * nur zu Test-Zwecken
-     * die Liste in Form eines String-Array
-     */
+
     getMedListAsStrings(): string[] {
         var medStrings: string[] = new Array<string>();
-        this.getMedList().forEach(element => {
+        this.medList.forEach(element => {
             medStrings.push(element.getname())
         });
         return medStrings;
@@ -176,7 +172,6 @@ export class MedService implements OnInit {
                         element["apothekenpflichtig"]
                     );
                     this.medList.push(newMedKlein);
-                    this.medList2.next(this.medList);
                     console.log("element", element);
                     console.log("newElement: ", newMedKlein);
 
@@ -313,15 +308,17 @@ export class MedService implements OnInit {
     /**
      * nimmt die Benutzerdaten von Bestand und Medikamenten-ID entgegen
      * Legt damit einen neuen Bestand am Server an.  
-     * @param medKlein die Bestandsdaten und Medikamenten-ID des neuen Bestandes 
+     * @param medKlein1 die Bestandsdaten und Medikamenten-ID des neuen Bestandes 
      */
-    addBestandToServer(medKlein: MedKlein, ablaufdatumstring: String, bestandstring: String) {
+    addBestandToServer(medKlein1: MedKlein) {
         let params: URLSearchParams = new URLSearchParams();
         params.set('function', '2');
         params.set('userid', '2');
-        params.set('medid', medKlein.getidmedikament().toString());
-        // Benutzereingaben prüfen und Parameter damit befüllen 
-        this.getParamsForBestand(medKlein, params, ablaufdatumstring, bestandstring);
+        params.set('medid', medKlein1.getidmedikament().toString());
+        if (medKlein1.getablaufdatum() != undefined)
+            params.set('ablaufdatum', medKlein1.getablaufdatum().toString());
+        if (medKlein1.getbestand() != undefined)
+            params.set('bestand', medKlein1.getbestand().toString());
 
         let options = new RequestOptions();
         options.search = params;
@@ -329,36 +326,33 @@ export class MedService implements OnInit {
             .toPromise()
             .then((response: Response) => {
                 const jsonData = response.json();
-                // holt die ID des neu angelegten Bestands aus dem Response
-                let idbestand = jsonData['idbestand'];
-                // schreibt die neu angelegte ID in den Bestand
-                medKlein.setidbestand(idbestand);
+                let idbestand = jsonData['idbestand']; 6
+                medKlein1.setidbestand(idbestand);
                 console.log("addBestandToServer: idbestand", idbestand);
-                // die gesamte Liste wird vom Server wieder geladen
-                // die bestehende medList wir nicht mit push erweitert. 
-                // this.medList.push(medKlein);
-                // Aktualisierung des Bestandes durchführen 
-                this.getMedListFromServer2();
+                this.medList.push(medKlein1);
             })
     }
+
     /**
-     * prüft, ob sinnvolle Benutzereingaben vorhanden sind 
-     * und befüllt damit die Parameter
-     * wird bei Neu-Anlage und bei Veränderung genutzt
-     * @param params die Parameter, die ergänzt werden 
-     * @param ablaufdatumstring das Ablaufdatum als String des Benutzers 
-     * @param bestandstring  die Bestandszahl als String
+     * nimmt die Benutzerdaten von Bestand und Medikamenten-ID entgegen
+     * ändert damit die Bestandsdaten Ablaufdatum und Bestand  
+     * @param medKlein1 die Bestandsdaten und Medikamenten-ID des bestehenden Bestandes 
      */
-    private getParamsForBestand(medKlein: MedKlein, params: URLSearchParams, ablaufdatumstring: String, bestandstring: String) {
+    changeBestandToServer(medKlein1: MedKlein, ablaufdatumstring: String, bestandstring: String) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('function', '7');
+        params.set('userid', '2');
+        console.log("changeBestandToServer ablaufdatumString = ", ablaufdatumstring);
+        params.set('idbestand', medKlein1.getidbestand().toString());
+        params.set('idmedikament', medKlein1.getidmedikament().toString());
         // Prüfung, ob eine Veränderung des Bestandswertes vorliegt
-        console.log("changeBestand Bestand ist und war ", bestandstring, "  ", medKlein.getbestand());
-        if (typeof bestandstring !== 'undefined' && bestandstring.length > 0) {     // enthält einen sinnvollen Wert 
-            // der alte Wert war nicht vorhanden oder der Wert hat sich geändert 
-            if ((typeof medKlein.getbestand() == "undefined") || (bestandstring.toString !== medKlein.getbestand().toString)) {
-                // Parameter werden erweitert 
+        console.log("changeBestand Bestand ist und war ", bestandstring, "  ", medKlein1.getbestand());
+        if (typeof bestandstring !== 'undefined' && bestandstring.length > 0) {
+            if (bestandstring.toString !== medKlein1.getbestand().toString) {
                 params.set('bestand', bestandstring.toString());
             }
         }
+
         // Prüfung ob eine Veränderung des Ablaufdatums vorliegt 
         let millis;
         if (typeof ablaufdatumstring !== 'undefined' && ablaufdatumstring.length > 1) {
@@ -368,23 +362,8 @@ export class MedService implements OnInit {
         }
         if (typeof bestandstring !== 'undefined' && bestandstring.length > 1)
             params.set('bestand', bestandstring.toString());
-    }
 
-    /**
-     * nimmt die Benutzerdaten von Bestand und Medikamenten-ID entgegen
-     * ändert damit die Bestandsdaten Ablaufdatum und Bestand  
-     * @param medKlein die Bestandsdaten und Medikamenten-ID des bestehenden Bestandes 
-     */
-    changeBestandToServer(medKlein: MedKlein, ablaufdatumstring: String, bestandstring: String) {
-        let params: URLSearchParams = new URLSearchParams();
-        params.set('function', '7');
-        params.set('userid', '2');
-        console.log("changeBestandToServer ablaufdatumString = ", ablaufdatumstring);
-        params.set('idbestand', medKlein.getidbestand().toString());
-        params.set('idmedikament', medKlein.getidmedikament().toString());
-        // Benutzereingaben prüfen und Parameter damit befüllen 
-        this.getParamsForBestand(medKlein, params, ablaufdatumstring, bestandstring);
-        // den Service-Request abschicken 
+
         let options = new RequestOptions();
         options.search = params;
         return this.http.get('http://localhost:8080/info', options)
@@ -393,9 +372,7 @@ export class MedService implements OnInit {
                 const jsonData = response.json();
                 let idbestand = jsonData['idbestand'];
                 let fehlercode = jsonData['fehlercode'];
-                // Aktualisierung des Bestandes durchführen 
-                this.getMedListFromServer2();
-                console.log("changeBestandToServer: idbestand", idbestand);
+                console.log("addBestandToServer: idbestand", idbestand);
                 // TODO im Fehlerfall muss die Änderung zurück gedreht werden.  
             })
     }
@@ -442,7 +419,7 @@ export class MedService implements OnInit {
             console.log('Med ist undefined');
         }
         else {
-            this.medList.push(null);
+            this.medList.push(this.medKlein1);
             console.log('neues Med im MedService', this.medList.length);
             // ok-Fall
             //            console.log("Service: addNewMed", this.medList.length, this.med.pzn);
@@ -473,9 +450,17 @@ export class MedService implements OnInit {
             .then((response: Response) => {
                 const jsonData = response.json();
                 let fehlercode = jsonData['fehlercode'];
-                if (fehlercode == 0) {    // das Löschen hat funktioniert. 
-                    // Aktualisierung des Bestandes durchführen 
-                    this.getMedListFromServer2();
+                if (fehlercode == 0) {
+                    // aus der Liste Löschen 
+                    let x = this.medList.findIndex(
+                        (item: MedKlein) => {
+                            if (item.getidbestand() == idbestand)
+                                return true;
+                            else return false;
+                        }
+                    )
+                    console.log("remove Indexposition: ", x);
+                    this.medList.splice(x, 1);
                 }
                 console.log("deleteBestandToServer: idbestand: ", idbestand);
             })

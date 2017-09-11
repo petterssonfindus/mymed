@@ -25,14 +25,21 @@ export class NewMedComponent {
         private navCtrl: NavController) {
     }
 
+    /**
+     * bevor die Seite verlassen wird, wird der Inhalt gelöscht 
+     * damit die Seite leer ist, beim erneuten Aufruf der Seite 
+     */
     ionViewWillLeave() {
         this.medService.clearSuchtrefferListe();
         this.items = new Array<Suchtreffer>();
         this.searchbar.value = "";
     }
 
-
-    // wird bei jedem Tastendruck aufgerufen
+    /**
+     * wird bei jedem Tastendruck aufgerufen
+     * prüft, ob ein sinnvoller Such-Text erfasst wurde
+     * und führt dann einen Service-Aufruf mit Aktualisierung der Suchtreffer durch. 
+     */
     getItems(ev: any) {
         // die Referenz zur Search-Bar speichern 
         console.log("NewMedComponent: ", ev.target.value);
@@ -58,9 +65,14 @@ export class NewMedComponent {
 
         }
     }
-
+    
+    /**
+     * ein Such-Treffer wurde vom Benutzer ausgewählt. 
+     * das zugehörige Medikament wird vom Server geladen und in der MedPage angezeigt. 
+     * @param item der ausgewählte Such-Treffer 
+     */
     clickItemSelected(item: Suchtreffer) {
-        //        console.log("Item selected:", item);
+        // die Position des aufgewählten Elementes 
         let x = this.items.indexOf(item);
         // holt die Medikamenten-Daten vom Server - synchron
         console.log("clickItemSelected ", item.getidmedikament());
@@ -70,7 +82,7 @@ export class NewMedComponent {
             (response: Response) => {
                 console.log("clickItemSelected: ", this.medService.getMed());
                 this.navCtrl.push(MedPageComponent, { medid: item.getidmedikament(), bestandanzeigen: false });
-//                this.navCtrl.pop();
+                //                this.navCtrl.pop();
             }
         )
 
