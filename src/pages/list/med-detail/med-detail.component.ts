@@ -26,8 +26,9 @@ export class MedDetailComponent {
     }
 
     ngOnInit() {
+        
         switch (this.gebiet) {
-
+            
             case 1: {
                 this.inhalt = this.med.getanwendungsgebiet();
                 break;
@@ -53,6 +54,7 @@ export class MedDetailComponent {
                 break;
             }
         }
+        document.getElementById('mytestid').innerHTML=this.inhalt;
     }
 
 

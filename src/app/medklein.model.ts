@@ -78,7 +78,7 @@ export class MedKlein {
      * 2 = Klo verboten - Hausmüll verboten
      */
     getentsorgunghausmuell(): boolean {
-        return (this.entsorgung < 2 ) ? true : false;
+        return (this.entsorgung < 2) ? true : false;
     }
     /**
      * steuert die Anzeige des Symbols für 'Hausmüll verboten'
@@ -102,6 +102,23 @@ export class MedKlein {
             return heute.valueOf() > this.ablaufdatum.valueOf();
         }
 
+    }
+
+    getKategorieText(): string {
+        let text = "";
+        switch (this.getkategorie()) {
+            case 0: text = "keine Kategorie";
+                break;
+            case 1: text = "Schmerzen";
+                break;
+            case 2: text = "Erkältung";
+                break;
+            case 3: text = "Durchfall";
+                break;
+            default: text = "keine Kategorie";
+                break;
+            }
+        return text;
     }
 
 }

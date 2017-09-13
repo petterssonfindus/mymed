@@ -4,7 +4,9 @@
 
       <ion-col>
         <ion-navbar>
-          <ion-title>{{med.name}}</ion-title>
+          <ion-title>{{med.name}}
+            <img *ngIf="med.getistabgelaufen()" src={{pfadabgelaufen}} height=40 alt="ist abgelaufen" title="ist abgelaufen">
+          </ion-title>
         </ion-navbar>
       </ion-col>
 
@@ -36,37 +38,30 @@
 <ion-content padding>
   <ion-list>
     <ion-item>
-      <ion-label stacked>PZN-Nummer</ion-label>
-      <ion-input type="text" [value]="med.getpzn()" readonly="true"></ion-input>
+      <h2>{{med.getpzn()}}</h2>
     </ion-item>
 
     <ion-item>
-      <ion-label stacked>Name</ion-label>
-      <ion-input type="text" [value]="med.getname()" readonly="true"></ion-input>
+      <h2>{{med.getKategorieText()}}</h2>
+    </ion-item>
+
+    <ion-item *ngIf="getapothekenpflichtig()">
+      <p>Medikament ist apothekenpflichtig
+        <img src={{pfadapothekenpflichtig}} height=30 alt="ist apothekenpflichtig" title="apothekenpflichtig">
+      </p>
     </ion-item>
 
     <ion-item>
-      <ion-label stacked>Kategorie</ion-label>
-      <ion-input type="text" [value]="med.getkategorie()" readonly="true"></ion-input>
+      <p>Entsorgung
+        <img *ngIf="getentsorgungkloverboten()" src={{pfadentsorgungkloverboten}} height=30 alt="Entsorgung über Klo ist verboten"
+          title="Entsorgung im Klo verboten">
+        <img *ngIf="getentsorgunghausmuell()" src={{pfadentsorgunghausmuell}} height=30 alt="Entsorgung erfolgt über Hausmüll" title="Entsorgung Hausmüll">
+        <img *ngIf="getentsorgunghausmuellverboten()" src={{pfadentsorgunghausmuellverboten}} height=30 alt="Entsorgung über Hausmüll ist verboten"
+          title="Entsorgung Hausmüll verboten">
+      </p>
     </ion-item>
-
-    <ion-item>
-      <ion-label stacked>Apothekenpflicht</ion-label>
-      <ion-input type="text" [value]="med.getapothekenpflichtig()" readonly="true"></ion-input>
-    </ion-item>
-    <img *ngIf="getapothekenpflichtig()" src= {{pfadapothekenpflichtig}} height=30 alt="ist apothekenpflichtig" title="apothekenpflichtig">
-
-    <ion-item>
-      <ion-label stacked>Entsorgung</ion-label>
-      <ion-input type="text" [value]="med.getentsorgung()" readonly="true"></ion-input>
-      <img *ngIf="getentsorgunghausmuell()" src= {{pfadentsorgunghausmuell}} height=30 alt="Entsorgung erfolgt über Hausmüll" title="Entsorgung Hausmüll">
-      <img *ngIf="getentsorgunghausmuellverboten()" src= {{pfadentsorgunghausmuellverboten}} height=30 alt="Entsorgung über Hausmüll ist verboten" title="Entsorgung Hausmüll verboten">
-    </ion-item>
-    <img *ngIf="getentsorgungkloverboten()" src= {{pfadentsorgungkloverboten}} height=30 alt="Entsorgung über Klo ist verboten" title="Entsorgung im Klo verboten">
 
     <bestand [initablaufdatum]="initablaufdatum" [initbestand]="initbestand"></bestand>
-
-      <img *ngIf="med.getistabgelaufen()" src={{pfadabgelaufen}}>
 
     <ion-item>
       <button ion-button (click)="clickAnwendungsgebiet()">Anwendungsgebiet</button>
