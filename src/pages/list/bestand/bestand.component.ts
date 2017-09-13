@@ -10,8 +10,9 @@ import { MedKlein } from "../../../app/medklein.model";
 export class BestandComponent {
 
     bestandzahl: String;
-    ablaufdatumstring: String; 
-
+    ablaufdatumstring: String;
+    private pfadabgelaufen = "/assets/pictures/abgelaufen.png";
+    
     // bekommt ein Data-Bindung mit dem anzuzeigenden Datum und Betrag
     @Input() initablaufdatum: String;
     @Input() initbestand: String;

@@ -1,6 +1,13 @@
+<ion-item>
+    <div>
+        <h1> {{med.getname()}}</h1>
+        {{med.getpzn()}} - {{med.getbestand()}} - {{med.getablaufdatum()|date:"dd.MM.yyyy"}}
+        <img *ngIf="getistabgelaufen()" src= {{pfadabgelaufen}} height=30 alt="ist abgelaufen">
+        <img *ngIf="getapothekenpflichtig()" src= {{pfadapothekenpflichtig}} height=30 alt="ist apothekenpflichtig" title="apothekenpflichtig">
+        <img *ngIf="getentsorgunghausmuell()" src= {{pfadentsorgunghausmuell}} height=30 alt="Entsorgung erfolgt über Hausmüll" title="Entsorgung Hausmüll">
+        <img *ngIf="getentsorgunghausmuellverboten()" src= {{pfadentsorgunghausmuellverboten}} height=30 alt="Entsorgung über Hausmüll ist verboten" title="Entsorgung Hausmüll verboten">
+        <img *ngIf="getentsorgungkloverboten()" src= {{pfadentsorgungkloverboten}} height=30 alt="Entsorgung über Klo ist verboten" title="Entsorgung im Klo verboten">
+    </div>
 
-    <ion-item>
-        <div>{{med.getpzn()}}  {{med.getname()}}</div>
-        <div>{{med.getbestand()}}  {{med.getablaufdatum()|date:"dd.MM.yyyy"}} {{med.getistabgelaufen()}}</div>
 
-    </ion-item>
+</ion-item>

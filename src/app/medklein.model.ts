@@ -71,6 +71,27 @@ export class MedKlein {
     getentsorgung(): number { return this.entsorgung }
     getapothekenpflichtig(): number { return this.apothekenpflichtig }
     getistabgelaufen(): boolean { return this.checkIstAbgelaufen() }
+    /**
+     * steuert die Anzeige des Symbols für 'Hausmüll ok'
+     * 0 = keine Anzeige
+     * 1 = Klo verboten - Hausmüll erlaubt 
+     * 2 = Klo verboten - Hausmüll verboten
+     */
+    getentsorgunghausmuell(): boolean {
+        return (this.entsorgung < 2 ) ? true : false;
+    }
+    /**
+     * steuert die Anzeige des Symbols für 'Hausmüll verboten'
+     */
+    getentsorgunghausmuellverboten(): boolean {
+        return (this.entsorgung == 2) ? true : false;
+    }
+    /**
+     * steuert die Anzeige des Symbols für 'Klo verboten'
+     */
+    getentsorgungkloverboten(): boolean {
+        return (this.entsorgung > 0) ? true : false;
+    }
 
     // Vorsicht Konsistenz mit 'istAbgelaufen'
     checkIstAbgelaufen(): boolean {

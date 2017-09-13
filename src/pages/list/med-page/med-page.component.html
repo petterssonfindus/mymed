@@ -50,12 +50,23 @@
       <ion-input type="text" [value]="med.getkategorie()" readonly="true"></ion-input>
     </ion-item>
 
-    <bestand [initablaufdatum]="initablaufdatum" [initbestand]="initbestand"></bestand>
+    <ion-item>
+      <ion-label stacked>Apothekenpflicht</ion-label>
+      <ion-input type="text" [value]="med.getapothekenpflichtig()" readonly="true"></ion-input>
+    </ion-item>
+    <img *ngIf="getapothekenpflichtig()" src= {{pfadapothekenpflichtig}} height=30 alt="ist apothekenpflichtig" title="apothekenpflichtig">
 
     <ion-item>
-      <ion-label stacked>ist Abgelaufen</ion-label>
-      <ion-input type="text" [value]="med.getistabgelaufen()" readonly="true"></ion-input>
+      <ion-label stacked>Entsorgung</ion-label>
+      <ion-input type="text" [value]="med.getentsorgung()" readonly="true"></ion-input>
+      <img *ngIf="getentsorgunghausmuell()" src= {{pfadentsorgunghausmuell}} height=30 alt="Entsorgung erfolgt über Hausmüll" title="Entsorgung Hausmüll">
+      <img *ngIf="getentsorgunghausmuellverboten()" src= {{pfadentsorgunghausmuellverboten}} height=30 alt="Entsorgung über Hausmüll ist verboten" title="Entsorgung Hausmüll verboten">
     </ion-item>
+    <img *ngIf="getentsorgungkloverboten()" src= {{pfadentsorgungkloverboten}} height=30 alt="Entsorgung über Klo ist verboten" title="Entsorgung im Klo verboten">
+
+    <bestand [initablaufdatum]="initablaufdatum" [initbestand]="initbestand"></bestand>
+
+      <img *ngIf="med.getistabgelaufen()" src={{pfadabgelaufen}}>
 
     <ion-item>
       <button ion-button (click)="clickAnwendungsgebiet()">Anwendungsgebiet</button>

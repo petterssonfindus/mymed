@@ -163,8 +163,10 @@ export class MedService implements OnInit {
                 let derbestand: Array<any> = jsonData['trefferliste'];
                 console.log("derBestand: ", derbestand);
                 let returnArray = [];
+                // die bestehende Liste wird gelöscht 
                 this.medList.splice(0, this.medList.length);
                 derbestand.map((element: any) => {
+                    // mit dem Konstruktor werden die Daten aus dem Response in das MedKlein übergeben 
                     let newMedKlein = new MedKlein(
                         element["idbestand"],
                         element["idmedikament"],
@@ -173,7 +175,8 @@ export class MedService implements OnInit {
                         element["kategorie"],
                         element["ablaufdatum"],
                         element["bestand"],
-                        element["apothekenpflichtig"]
+                        element["apothekenpflichtig"],
+                        element["entsorgung"]
                     );
                     this.medList.push(newMedKlein);
                     this.medList2.next(this.medList);
