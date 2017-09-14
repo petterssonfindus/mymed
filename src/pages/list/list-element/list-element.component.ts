@@ -33,11 +33,9 @@ export class ListElementComponent {
     }
 
     getentsorgunghausmuell() : boolean {
-        console.log("list-element: entsorgunghausmuell", this.med.getentsorgunghausmuell(), this.med);
         return this.med.getentsorgunghausmuell();
     }
     getentsorgunghausmuellverboten(): boolean {
-        console.log("list-element: entsorgunghausmuellverboten", this.med.getentsorgunghausmuellverboten());
         return this.med.getentsorgunghausmuellverboten();
     }
     getentsorgungkloverboten(): boolean {

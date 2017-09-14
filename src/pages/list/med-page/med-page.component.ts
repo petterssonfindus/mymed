@@ -106,25 +106,28 @@ export class MedPageComponent {
             }
         )
     }
-
+    /**
+     * der Benutzer möchte eine bestimmte Detail-Seite sehen
+     */
     clickAnwendungsgebiet() {
         this.navCtrl.push(MedDetailComponent, { item: this.med, gebiet: 1 });
     }
     clickWirkstoffe() {
         this.navCtrl.push(MedDetailComponent, { item: this.med, gebiet: 2 });
     }
-    clickGegenanzeigen() {
+    clickWirkungsweise() {
         this.navCtrl.push(MedDetailComponent, { item: this.med, gebiet: 3 });
     }
-    clickDosierung() {
+    clickGegenanzeigen() {
         this.navCtrl.push(MedDetailComponent, { item: this.med, gebiet: 4 });
     }
-    clickEntsorgung() {
+    clickDosierung() {
         this.navCtrl.push(MedDetailComponent, { item: this.med, gebiet: 5 });
     }
-    clickWirkungsweise() {
+    clickEntsorgung() {
         this.navCtrl.push(MedDetailComponent, { item: this.med, gebiet: 6 });
     }
+    
     /**
      * dient der UI zur Anzeige der Symbole
      */
@@ -137,11 +140,9 @@ export class MedPageComponent {
     }
 
     getentsorgunghausmuell(): boolean {
-        console.log("list-element: entsorgunghausmuell", this.med.getentsorgunghausmuell(), this.med);
         return this.med.getentsorgunghausmuell();
     }
     getentsorgunghausmuellverboten(): boolean {
-        console.log("list-element: entsorgunghausmuellverboten", this.med.getentsorgunghausmuellverboten());
         return this.med.getentsorgunghausmuellverboten();
     }
     getentsorgungkloverboten(): boolean {
