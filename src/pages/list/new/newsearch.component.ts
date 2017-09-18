@@ -57,7 +57,7 @@ export class NewSearchComponent {
         test.then(
             (response: Response) => {
                 console.log("clickItemSelected: ", this.medService.getMed());
-                this.navCtrl.push(MedPageComponent, { medid: item.getid(), bestandanzeigen: false });
+                this.navCtrl.push(MedPageComponent, { medid: item.getid(), neuanlage: false });
             }
         )
 

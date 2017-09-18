@@ -81,7 +81,7 @@ export class NewMedComponent {
         test.then(
             (response: Response) => {
                 console.log("clickItemSelected: ", this.medService.getMed());
-                this.navCtrl.push(MedPageComponent, { medid: item.getidmedikament(), bestandanzeigen: false });
+                this.navCtrl.push(MedPageComponent, { medid: item.getidmedikament(), neuanlage: true });
                 //                this.navCtrl.pop();
             }
         )

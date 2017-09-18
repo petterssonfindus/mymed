@@ -16,7 +16,7 @@ import { Suchtreffer } from "./suchtreffer";
 import { BehaviorSubject } from "rxjs/Rx";
 
 @Injectable()
-export class MedService implements OnInit {
+export class MedService {
 
     //     private medKlein: MedKlein;  // 
     private med: Med;  // das Medikament das bearbeitet wird
@@ -30,7 +30,13 @@ export class MedService implements OnInit {
     // Observable Liste der Medikamente, die in der List-Component dargestellt werden.
     // darauf kann sich jeder registrieren, um sich über Änerungen benachrichtigen zu lassen. 
     private medList2: BehaviorSubject<MedKlein[]>;
+    // das Array, das die Bestands-Liste enthält 
     private medList: MedKlein[];
+    // die URL des Servers für Services
+    private serveradresse = 'http://localhost:8080/info';
+    // die URL 
+    private pfadmedbild = "http://localhost:8080/picture/";
+    
 
     //    medList: MedKlein[];  // die Liste 
     suchtrefferList: Array<Suchtreffer>;  // die Suchtreffer, die in der Search-Component dargestellt wird. 
@@ -47,9 +53,11 @@ export class MedService implements OnInit {
         this.filter.schmerz = true;
         this.testObservable();
     }
-
-    ngOnInit() {
-        console.log("med.service ngOnInit ausgeführt");
+    /**
+     * bietet Zugriff auf die Adresse zur Ablage der Bilder
+     */
+    getPfadMedBild() {
+        return this.pfadmedbild;
     }
 
     testObservable2(test: string) {
@@ -156,7 +164,7 @@ export class MedService implements OnInit {
         params.set('userid', '2');
         let options = new RequestOptions();
         options.search = params;
-        return this.http.get('http://localhost:8080/info', options)
+        return this.http.get(this.serveradresse, options)
             .toPromise()
             .then((response: Response) => {
                 const jsonData = response.json();
@@ -197,7 +205,7 @@ export class MedService implements OnInit {
         params.set('pzn', suchtext);
         let options = new RequestOptions();
         options.search = params;
-        return this.http.get('http://localhost:8080/info', options)
+        return this.http.get(this.serveradresse, options)
             .map((response: Response) => {
                 const jsonData = response.json();
                 console.log("SearchMedFormServer: jsonData: ", jsonData);
@@ -237,7 +245,7 @@ export class MedService implements OnInit {
         let options = new RequestOptions();
         options.search = params;
         console.log("getMedikamentvomServer: ", medid);
-        return this.http.get('http://localhost:8080/info', options)
+        return this.http.get(this.serveradresse, options)
             .toPromise()
             .then(
             (response: Response) => {
@@ -279,7 +287,7 @@ export class MedService implements OnInit {
         let options = new RequestOptions();
         options.search = params;
         console.log("getMedikamentBestandvomServer: ", bestandid);
-        return this.http.get('http://localhost:8080/info', options)
+        return this.http.get(this.serveradresse, options)
             .toPromise()
             .then(
             (response: Response) => {
@@ -328,7 +336,7 @@ export class MedService implements OnInit {
 
         let options = new RequestOptions();
         options.search = params;
-        return this.http.get('http://localhost:8080/info', options)
+        return this.http.get(this.serveradresse, options)
             .toPromise()
             .then((response: Response) => {
                 const jsonData = response.json();
@@ -390,7 +398,7 @@ export class MedService implements OnInit {
         // den Service-Request abschicken 
         let options = new RequestOptions();
         options.search = params;
-        return this.http.get('http://localhost:8080/info', options)
+        return this.http.get(this.serveradresse, options)
             .toPromise()
             .then((response: Response) => {
                 const jsonData = response.json();
@@ -471,7 +479,7 @@ export class MedService implements OnInit {
 
         let options = new RequestOptions();
         options.search = params;
-        return this.http.get('http://localhost:8080/info', options)
+        return this.http.get(this.serveradresse, options)
             .toPromise()
             .then((response: Response) => {
                 const jsonData = response.json();

@@ -103,6 +103,13 @@ export class MedKlein {
         }
 
     }
+    /**
+     * liefert den Namen des Bildes - ohne Pfadangabe
+     * dieser setzt sich aus pzn + '.jpg' zusammen
+     */
+    getnamebild(): string {
+        return this.pzn + '.jpg';
+    }
 
     getKategorieText(): string {
         let text = "";

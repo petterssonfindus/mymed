@@ -16,12 +16,14 @@ import { BestandComponent } from "../bestand/bestand.component";
  * stellt ein Medikament vollständig dar incl. aller Daten
  * die Bestandsdaten stehen zur Bearbeitung zur Verfügung 
  * wird genutzt bei der Bestands-Neuanalge und bei der Bestands-Bearbeitung.  
+ * bei der Neu-Anlage stehen die Buttons "Speichern" und "Abbrechen" zur Verfügung. 
+ * bei der Bearbeitung stehen die Buttons "Speichern" und "Entfernen zur Verfügung. 
  */
 export class MedPageComponent {
 
     med: Med;    // das Medikament, das präsentiert wird 
     medid: number;
-    bestandanzeigen: boolean = true; // steuert, ob die Bestandsdaten angezeigt werden - oder nicht 
+    neuanlage: boolean = true; // steuert die Buttons die erscheinen. Beschreibung s.o.   
     initablaufdatum: String;  // wird an die Bestand-Component weiter gegeben 
     initbestand: String;  // wird an die Bestand-Component weiter gegeben 
     private pfadabgelaufen = "/assets/pictures/abgelaufen.png";
@@ -29,6 +31,7 @@ export class MedPageComponent {
     private pfadentsorgunghausmuell = "/assets/pictures/hausmuell3.png";
     private pfadentsorgunghausmuellverboten = "/assets/pictures/hausmuellverboten2.png";
     private pfadentsorgungkloverboten = "/assets/pictures/klo2.png";
+//    private pfadmedbild = "http://localhost:8080/picture/00829388.jpg";
 
 
     @Output() deleteEvent = new EventEmitter<Med>();
@@ -42,14 +45,14 @@ export class MedPageComponent {
      * stellt ein Medikament vollständig dar incl. allen Daten
      * @param navCtrl 
      * @param medService 
-     * @param params enthält den Parameter 'medid' mit der internen Med-Nummer
+     * @param params enthält den Parameter 'medid' mit der internen Med-Nummer und "neuanlage" 
      */
     constructor(
         private navCtrl: NavController,
         private medService: MedService,
         params: NavParams) {
         this.medid = params.data.medid;
-        this.bestandanzeigen = params.data.bestandanzeigen;
+        this.neuanlage = params.data.neuanlage;
         this.med = medService.getMed();
         console.log("Medikament-Erzeugung2 id = ", this.medid);
         console.log("med-page init: ", this.med);
@@ -127,7 +130,13 @@ export class MedPageComponent {
     clickEntsorgung() {
         this.navCtrl.push(MedDetailComponent, { item: this.med, gebiet: 6 });
     }
-    
+    /**
+     * die Adresse setzt sich zusammen aus dem Pfad + dem Namen 
+     * der Pfad wird im MedService gehalten, der Name stammt aus dem Medikament
+     */
+    getpfadmedbild() {
+        return this.medService.getPfadMedBild() + this.med.getnamebild();
+    }
     /**
      * dient der UI zur Anzeige der Symbole
      */

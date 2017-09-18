@@ -48,11 +48,11 @@ export class MedDetailComponent {
      */
     ionViewDidEnter() {
         if (typeof this.gebiet != 'undefined' && this.gebiet != 0) {
-            this.slides.slideTo(this.gebiet-1);
+            this.slides.slideTo(this.gebiet - 1);
         }
     }
 
-    private getEntsorgungText() : string {
+    private getEntsorgungText(): string {
         let test = this.med.getentsorgung();
         let result = "";
         switch (test) {
@@ -61,7 +61,7 @@ export class MedDetailComponent {
                 break;
             }
             case 2: {
-                result = "Entsorgung darf keinesfalls über die Haustoilette erfolgen<br> Hausmüll ist die die geeignete Entsorgung";
+                result = "Entsorgung darf keinesfalls über die Haustoilette erfolgen<br> Hausmüll ist die geeignete Entsorgung";
                 break;
             }
             case 3: {
@@ -70,6 +70,17 @@ export class MedDetailComponent {
             }
         }
         return result;
-    } 
+    }
+    /**
+     * Navigation zwischen den Detail-Seiten mit den Buttons 
+     */
+    clickforward() {
+        this.slides.isEnd() ? "" : this.slides.slideNext();
+    }
+
+    clickback() {
+        this.slides.isBeginning() ? "" : this.slides.slidePrev();
+        
+    }
 }
 

@@ -82,7 +82,7 @@ export class ListPage implements OnInit {
     let test: Promise<any> = this.medService.getMedikamentBestandFromServer(item.getidbestand());
     test.then(
       (response: Response) => {
-        this.navCtrl.push(MedPageComponent, { medid: item.getidbestand(), bestandanzeigen: true });
+        this.navCtrl.push(MedPageComponent, { medid: item.getidbestand(), neuanlage: false });
       }
     )
   }

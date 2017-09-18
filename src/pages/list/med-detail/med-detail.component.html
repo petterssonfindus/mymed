@@ -1,15 +1,26 @@
 <ion-header>
   <ion-navbar>
     <ion-title>{{med.name}} {{this.gebietName}}</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="clickback()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="clickforward()">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+
+    </ion-buttons>
+
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-slides #meddetailslides>
+  <ion-slides #meddetailslides  >
 
-    <ion-slide>
+    <ion-slide >
       <h1>Anwendungsgebiet</h1>
-      <ion-card>
+      <ion-card  text-left>
         <p id='idanwendungsgebiet'>
         </p>
       </ion-card>
@@ -17,7 +28,7 @@
 
     <ion-slide>
       <h1>Wirkstoffe</h1>
-      <ion-card>
+      <ion-card text-left>
         <p id='idwirkstoffe'>
         </p>
       </ion-card>
@@ -25,7 +36,7 @@
 
     <ion-slide>
       <h1>Wirkungsweise</h1>
-      <ion-card>
+      <ion-card text-left>
         <p id='idwirkungsweise'>
         </p>
       </ion-card>
@@ -33,7 +44,7 @@
 
     <ion-slide>
       <h1>Gegenanzeigen</h1>
-      <ion-card>
+      <ion-card text-left>
         <p id='idgegenanzeigen'>
         </p>
       </ion-card>
@@ -41,7 +52,7 @@
 
     <ion-slide>
       <h1>Dosierung</h1>
-      <ion-card>
+      <ion-card text-left>
         <p id='iddosierung'>
         </p>
       </ion-card>
@@ -49,7 +60,7 @@
 
     <ion-slide>
       <h1>Entsorgung</h1>
-      <ion-card>
+      <ion-card text-left>
         <p id='identsorgung'>
         </p>
       </ion-card>

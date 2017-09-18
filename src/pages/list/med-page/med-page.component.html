@@ -1,42 +1,36 @@
 <ion-header>
-  <ion-grid>
-    <ion-row>
 
-      <ion-col>
-        <ion-navbar>
-          <ion-title>{{med.name}}
-            <img *ngIf="med.getistabgelaufen()" src={{pfadabgelaufen}} height=40 alt="ist abgelaufen" title="ist abgelaufen">
-          </ion-title>
-        </ion-navbar>
-      </ion-col>
+  <ion-navbar>
+    <ion-title>{{med.name}}
+      <img *ngIf="med.getistabgelaufen()" src={{pfadabgelaufen}} height=40 alt="ist abgelaufen" title="ist abgelaufen">
+    </ion-title>
+    <ion-buttons outline end>
+      <!-- die Buttons für die Neu-Anlage -->
+      <button *ngIf="neuanlage" ion-button icon-only (click)="clickNewMed()">
+        <ion-icon name="add"></ion-icon>
+      </button>
 
-      <ion-col>
-        <ion-toolbar>
+      <!-- die Buttons für die Bearbeitug -->
+      <button *ngIf="!neuanlage" ion-button icon-only (click)="clickSaveMed()">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+      </button>
 
-          <button *ngIf="!bestandanzeigen" ion-button end round color="grey" (click)="clickNewMed()">
-            Speichern  
-          </button>
+      <button *ngIf="!neuanlage" ion-button icon-only (click)="clickDelMed()">
+        <ion-icon name="trash"></ion-icon>
+      </button>
 
-          <button *ngIf="!bestandanzeigen" ion-button end round color="grey" (click)="clickSchliessen()">
-            Schliessen
-          </button>
+    </ion-buttons>
+  </ion-navbar>
 
-          <button *ngIf="bestandanzeigen" ion-button end round color="grey" (click)="clickSaveMed()">
-            Speichern  
-          </button>
-
-          <button *ngIf="bestandanzeigen" ion-button end round color="grey" (click)="clickDelMed()">
-            Entfernen
-          </button>
-        </ion-toolbar>
-      </ion-col>
-
-    </ion-row>
-  </ion-grid>
 </ion-header>
 
-<ion-content padding>
-  <ion-list>
+<ion-content>
+  <ion-list >
+    <!-- <p background-image: url("http://localhost:8080/picture/00829388.jpg") ></p> -->
+    <ion-item>
+      <img src={{getpfadmedbild()}} height=150>
+    </ion-item>
+
     <ion-item>
       <h2>{{med.getpzn()}}</h2>
     </ion-item>
@@ -53,10 +47,10 @@
 
     <ion-item>
       <p>Entsorgung
-        <img *ngIf="getentsorgungkloverboten()" src={{pfadentsorgungkloverboten}} height=30 alt="Entsorgung über Klo ist verboten"
+        <img *ngIf="getentsorgungkloverboten()" src={{pfadentsorgungkloverboten}} height=40 alt="Entsorgung über Klo ist verboten"
           title="Entsorgung im Klo verboten">
-        <img *ngIf="getentsorgunghausmuell()" src={{pfadentsorgunghausmuell}} height=30 alt="Entsorgung erfolgt über Hausmüll" title="Entsorgung Hausmüll">
-        <img *ngIf="getentsorgunghausmuellverboten()" src={{pfadentsorgunghausmuellverboten}} height=30 alt="Entsorgung über Hausmüll ist verboten"
+        <img *ngIf="getentsorgunghausmuell()" src={{pfadentsorgunghausmuell}} height=40 alt="Entsorgung erfolgt über Hausmüll" title="Entsorgung Hausmüll">
+        <img *ngIf="getentsorgunghausmuellverboten()" src={{pfadentsorgunghausmuellverboten}} height=40 alt="Entsorgung über Hausmüll ist verboten"
           title="Entsorgung Hausmüll verboten">
       </p>
     </ion-item>
